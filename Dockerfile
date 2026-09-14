@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.2-fpm-bookworm
 
 # Copy composer.lock and composer.json
 COPY composer.lock composer.json /var/www/
@@ -30,7 +30,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get install -y \
     gnupg \
     gnupg2 \
     gnupg1
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - &&\
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - &&\
     apt-get install -y nodejs
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
