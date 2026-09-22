@@ -1,0 +1,283 @@
+@import './normal.css';
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+#app {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.comments-app {
+    color: var(--c-grey-900);
+}
+
+.comments-app .app-header {
+    gap: 1rem;
+}
+
+.eyebrow {
+    color: var(--c-grey-700);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.comment-counter {
+    min-width: 48px;
+    height: 48px;
+    padding: 0 0.75rem;
+    border-radius: 14px;
+    background: var(--c-purple-500);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(119, 98, 255, 0.25);
+}
+
+.controls-header {
+    align-items: flex-start;
+}
+
+.section-subtitle {
+    color: var(--c-grey-700);
+    font-size: 0.82rem;
+    margin-top: 0.25rem;
+}
+
+.refresh-btn,
+.delete-btn,
+.pagination button {
+    border-radius: 12px;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.refresh-btn {
+    background: #fff;
+    color: var(--c-purple-500);
+    padding: 0.7rem 0.9rem;
+    box-shadow: 0 5px 15px rgba(150, 132, 254, 0.1);
+}
+
+.refresh-btn:disabled,
+.primary-btn:disabled,
+.pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.sort-panel {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 var(--inner-gutter);
+    margin-bottom: 1rem;
+}
+
+.field-label {
+    color: var(--c-grey-700);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.sort-panel .filter-select {
+    width: 100%;
+}
+
+.notice,
+.empty-state,
+.comment-card,
+.comment-form {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(150, 132, 254, 0.1), 0 15px 30px rgba(150, 132, 254, 0.05);
+}
+
+.notice {
+    margin: 0 var(--inner-gutter) 1rem;
+    padding: 1rem;
+    color: var(--c-grey-700);
+}
+
+.notice--error {
+    color: #b42318;
+    background: #fff4f2;
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 0 var(--inner-gutter);
+}
+
+.comment-card {
+    padding: 1rem;
+}
+
+.comment-card__top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 0.85rem;
+}
+
+.comment-card h3 {
+    font-size: 1rem;
+    line-height: 1.25;
+    word-break: break-word;
+}
+
+.comment-id {
+    color: var(--c-purple-500);
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+}
+
+.delete-btn {
+    flex: 0 0 auto;
+    background: #fff0f1;
+    color: #d92d20;
+    padding: 0.55rem 0.7rem;
+}
+
+.delete-btn:hover {
+    background: #ffe0e2;
+}
+
+.comment-text {
+    color: var(--c-grey-700);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin-bottom: 0.9rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.comment-date {
+    color: var(--c-purple-300);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.empty-state {
+    margin: 0 var(--inner-gutter);
+    padding: 1.25rem;
+}
+
+.empty-state h3 {
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+}
+
+.empty-state p {
+    color: var(--c-grey-700);
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    padding: 1rem var(--inner-gutter) 0;
+}
+
+.pagination button {
+    min-width: 40px;
+    min-height: 40px;
+    background: #fff;
+    color: var(--c-grey-700);
+    padding: 0 0.75rem;
+    box-shadow: 0 5px 15px rgba(150, 132, 254, 0.1);
+}
+
+.pagination button.active {
+    background: var(--c-purple-500);
+    color: #fff;
+}
+
+.comment-form-section {
+    padding-bottom: 1rem;
+}
+
+.comment-form {
+    margin: 0 var(--inner-gutter);
+    padding: 1rem;
+}
+
+.form-field {
+    display: block;
+    margin-bottom: 0.9rem;
+}
+
+.form-field span {
+    color: var(--c-grey-700);
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.45rem;
+}
+
+.comment-textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.mx-datepicker {
+    width: 100%;
+}
+
+.mx-input.modern-input {
+    height: auto;
+    border: 0;
+    line-height: 1.25;
+}
+
+.primary-btn {
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+@media (min-width: 900px) {
+    .app.comments-app {
+        width: min(860px, calc(100vw - 48px));
+        height: min(860px, calc(100vh - 48px));
+    }
+
+    .sort-panel {
+        grid-template-columns: auto minmax(180px, 1fr) auto minmax(180px, 1fr);
+    }
+}
+
+@media (max-width: 479px) {
+    body {
+        align-items: stretch;
+    }
+
+    #app {
+        align-items: stretch;
+    }
+
+    .app.comments-app {
+        min-height: 100vh;
+    }
+}

@@ -1,0 +1,853 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* Поскольку референсов стиля не было, 
+   взял стили из одного из своих пет проектов.
+   Можете ознакомиться, он на ts 
+   https://github.com/duvean/PricePulse */
+
+/* --- RESET & VARIABLES --- */
+:root {
+  --c-grey-000: #ffffff;
+  --c-grey-100: #f7f5ff;
+  --c-grey-500: #dddddd;
+  --c-grey-700: #7d7d80;
+  --c-grey-900: #000000;
+  --c-purple-100: #cac2f2;
+  --c-purple-300: #9684fe;
+  --c-purple-500: #7762ff;
+  --inner-gutter: 1.25rem;
+  --header-height: 80px;
+  --footer-height: 80px;
+}
+
+*, *:before, *:after { box-sizing: border-box; }
+body, h1, h2, h3, h4, p, ul, ol, li, figure { margin: 0; padding: 0; }
+img { max-width: 100%; display: block; }
+button { border: none; background: transparent; padding: 0; cursor: pointer; font-family: inherit; }
+
+/* Скрываем скроллбар */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+/* --- GLOBAL LAYOUT --- */
+body {
+  font-family: "Lexend", sans-serif;
+  min-height: 100vh;
+  background-color: var(--c-purple-500);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Фоновые круги */
+body::after {
+  content: "";
+  display: block;
+  width: 80vw;
+  height: 80vw;
+  border-radius: 50%;
+  background-color: rgba(150, 132, 254, 0.5);
+  position: fixed;
+  z-index: -1;
+  top: -35vw;
+  right: -30vw;
+  box-shadow: -10vw 30vw 0 -20vw rgba(150, 132, 254, 0.25);
+}
+
+body::before {
+  content: "";
+  display: block;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  background-color: rgba(150, 132, 254, 0.75);
+  position: fixed;
+  z-index: -1;
+  top: 50vw;
+  left: -20vw;
+  box-shadow: 20vw 20vw 0 -10vw rgba(150, 132, 254, 0.25);
+}
+
+/* --- APP CONTAINER --- */
+.app {
+  background-color: var(--c-grey-100);
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* На десктопе делаем вид мобильного телефона */
+@media (min-width: 480px) {
+  .app {
+    width: 405px;
+    height: 850px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+}
+
+/* --- HEADER --- */
+.app-header {
+  padding: 1.25rem var(--inner-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: rgb(255, 255, 255);
+  padding: 0 var(--inner-gutter);
+}
+
+@media (min-width: 480px) {
+  .app-header {
+    position: absolute;
+  }
+}
+
+.app-header-title {
+  font-size: 1.25rem; font-weight: 800; color: var(--c-purple-500);
+  display: flex; align-items: center; gap: 8px;
+}
+
+.app-header-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-grey-700);
+  transition: 0.15s ease;
+}
+
+.app-header-btn svg { width: 28px; height: 28px; }
+
+.app-header-btn:hover, .app-header-btn--active {
+  background-color: var(--c-grey-000);
+  box-shadow: 0 5px 15px rgba(150, 132, 254, 0.15);
+  color: var(--c-purple-500);
+}
+
+/* --- MAIN BODY --- */
+.app-body {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 120px;
+  padding-top: 96px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.section { margin-bottom: 2rem; }
+
+.section-header {
+  padding: 0 var(--inner-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--c-grey-700);
+}
+
+.section-body {
+    padding: 0 var(--inner-gutter);
+}
+
+/* --- PRODUCT GRID (2 Columns) --- */
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+  row-gap: 5rem; /* Большой отступ, так как картинки "торчат" вверх */
+  padding: 4rem var(--inner-gutter) 20px; /* Верхний паддинг для первых картинок */
+}
+
+/* --- PRODUCT CARD STYLE --- */
+.product {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--c-grey-000);
+  box-shadow: 0 5px 20px 0 rgba(150, 132, 254, 0.1), 0 15px 30px 0 rgba(150, 132, 254, 0.05);
+  border-radius: 15px;
+  position: relative;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.product-image {
+  margin-top: -3.5rem; /* Картинка вылезает вверх */
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image img {
+  max-height: 100%;
+  width: auto;
+  filter: drop-shadow(0 5px 15px rgba(150, 132, 254, 0.375));
+  border-radius: 12px;
+}
+
+.product-content {
+  padding: 0.5rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-title {
+  font-size: 0.9rem;
+  line-height: 1.25;
+  color: var(--c-grey-900);
+  font-weight: 600;
+  margin-bottom: 5px;
+  
+  /* Обрезка текста */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-info {
+  margin-top: auto; /* Прижимает цену и кнопку к низу */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.product-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-purple-300);
+}
+
+.product-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: var(--c-grey-000);
+  box-shadow: 0 3px 10px rgba(150, 132, 254, 0.25);
+  color: var(--c-grey-700);
+}
+.product-btn--add { color: var(--c-purple-500); }
+.product-btn--delete { color: #ff4d4f; }
+
+
+.product--reached::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);
+  border-radius: 15px;
+  z-index: 1;
+}
+
+.product--reached .product-price, 
+.product--reached .threshold-info {
+  position: relative;
+  z-index: 2;
+  color: #fff !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.product--reached .product-price {
+  font-size: 1.2rem;
+  color: #52c41a !important;
+}
+
+.product--reached .product-image,
+.product--reached .product-title {
+  opacity: 0.6;
+}
+
+/* --- INPUTS --- */
+.search-wrapper {
+    padding: 0 var(--inner-gutter);
+    margin-bottom: 1rem;
+}
+.modern-input {
+    width: 100%;
+    background: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(150, 132, 254, 0.1);
+    color: var(--c-grey-700);
+    font-family: inherit;
+    outline: none;
+}
+.modern-input::placeholder { color: #ccc; }
+
+/* --- FOOTER MENU --- */
+.app-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 1rem 1.5rem; /* Отступ снизу для красоты */
+  pointer-events: none; /* Пропускаем клики сквозь контейнер */
+}
+
+.menu-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around; /* Равномерное распределение */
+  border-radius: 24px;
+  background-color: #ffffff;
+  box-shadow: 0 -5px 15px rgba(150, 132, 254, 0.15);
+  padding: 0 10px;
+  height: 70px;
+  pointer-events: auto; /* Включаем клики для меню */
+}
+
+.menu-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-purple-100);
+  text-decoration: none;
+  flex: 1;
+  height: 100%;
+  transition: 0.2s ease;
+}
+
+.menu-bar-item svg { width: 24px; height: 24px; margin-bottom: 4px; }
+.menu-bar-item span { font-size: 0.75rem; font-weight: 500; }
+
+.menu-bar-item.active { color: var(--c-purple-500); transform: translateY(-2px); }
+
+/* --- PROFILE CARD --- */
+.profile-card-modern {
+    background-color: var(--c-purple-300);
+    color: white;
+    padding: 30px 20px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(150, 132, 254, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+.profile-card-modern::after {
+    content: "";
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+}
+
+.avatar-large {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,0.3);
+    margin-bottom: 15px;
+}
+
+/* --- LOGIN PAGE --- */
+.glass-card {
+  background-color: var(--c-grey-000);
+  border-radius: 24px; padding: 2rem;
+  box-shadow: 0 5px 20px rgba(150, 132, 254, 0.15);
+  text-align: center;
+}
+
+.big-input {
+    width: 100%; padding: 15px; margin-bottom: 10px;
+    border-radius: 12px; background: var(--c-grey-100);
+    border: none; outline: none;
+}
+.primary-btn {
+    width: 100%; padding: 15px; border-radius: 12px;
+    background: var(--c-purple-500); color: white;
+    font-weight: 700; box-shadow: 0 5px 15px rgba(119, 98, 255, 0.4);
+    margin-top: 10px;
+}
+
+/* Аватар в навбаре */
+.menu-bar-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+.active .menu-bar-avatar {
+  border-color: var(--c-purple-500);
+}
+
+/* Skeleton Loader */
+.skeleton-card {
+  background: var(--c-grey-000);
+  border-radius: 15px;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.skeleton-shimmer {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #f3f0ff 25%,
+    #e9e4ff 50%,
+    #f3f0ff 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Стили для селектора фильтра */
+.filter-select {
+  appearance: none;
+  background-color: var(--c-grey-000);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%237d7d80' viewBox='0 0 256 256'%3E%3Cpolyline points='208 96 128 176 48 96' fill='none' stroke='%237d7d80' stroke-linecap='round' stroke-linejoin='round' stroke-width='16'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  border: 0px;
+  color: var(--c-grey-700);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 8px 28px 8px 12px;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(150, 132, 254, 0.1);
+}
+
+.filter-select:focus {
+  border-color: var(--c-purple-500);
+  box-shadow: 0 0 0 2px rgba(119, 98, 255, 0.2);
+}
+
+.filter-container { position: relative; }
+
+.filter-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 200px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  padding: 15px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.filter-group label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--c-grey-700);
+  margin-bottom: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.filter-dropdown select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--c-grey-100);
+  font-family: inherit;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+  row-gap: 5rem;
+  padding: 4rem var(--inner-gutter) 105px;
+}
+
+@media (max-width: 480px) {
+  .app-body {
+    padding-bottom: 0px;
+  }
+  .app-footer {
+    position: fixed;
+  }
+  .product-grid {
+    padding: 4rem var(--inner-gutter) 75px;
+  }
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.app-header-btn {
+    background: none;
+    border: none;
+    color: #333;
+    position: relative;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.app-header-btn:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+/* Unread Dot */
+.unread-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    background-color: #ff4d4f;
+    border-radius: 50%;
+    border: 2px solid #f4f7ff; /* Цвет фона хедера */
+}
+
+/* Sidebar */
+.notification-sidebar {
+  position: absolute; /* Теперь привязано к .app */
+  top: 0;
+  right: -100%; /* Полностью скрыто за пределами .app */
+  width: 100%;
+  height: 100%;
+  background-color: var(--c-grey-100);
+  z-index: 100;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-sidebar.open {
+  transform: translateX(-100%); /* Заезжает внутрь .app */
+}
+
+.sidebar-header {
+  padding: 1rem var(--inner-gutter);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--c-grey-000);
+}
+
+.sidebar-header h3 {
+  font-size: 1.25rem;
+  color: var(--c-grey-700);
+  flex: 1;
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--inner-gutter);
+}
+
+/* Стиль уведомлений*/
+.notif-item {
+  border-left: 4px solid var(--c-purple-300);
+  background: white;
+  padding: 15px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(150, 132, 254, 0.08);
+}
+
+.notif-text-structured {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--c-grey-900);
+  white-space: pre-wrap; 
+  margin-bottom: 10px;
+  font-family: inherit;
+}
+
+.notif-link-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-purple-500);
+  background: var(--c-grey-100);
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: 10px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.notif-link-btn:hover {
+  background: var(--c-purple-100);
+  transform: translateY(-1px);
+}
+
+.notif-link-btn:active {
+  transform: translateY(0);
+}
+
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.notif-icon { font-size: 14px; }
+
+.notif-time {
+  font-size: 11px;
+  color: var(--c-grey-700);
+  font-weight: 500;
+}
+
+/* Точка уведомлений */
+.unread-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #ff4d4f;
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid var(--c-grey-100);
+}
+
+/* Инпут редактирования цены */
+.price-display {
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 0;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.status-waiting {
+    color: #f39c12;
+}
+.status-waiting .target-val {
+    color: #e67e22;
+}
+
+.status-waiting .status-icon svg {
+    animation: highlight-fade 2s ease-out;
+}
+
+@keyframes pulse-ring {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* Статус достигнутой цены */
+.status-reached {
+    color: #27ae60;
+}
+
+.status-reached .target-val {
+    color: #2ecc71;
+}
+
+@keyframes highlight-fade {
+    0% { background-color: rgba(46, 204, 113, 0.3); }
+    100% { background-color: transparent; }
+}
+
+.status-icon {
+    display: flex;
+    align-items: center;
+}
+
+.target-val { font-weight: bold; color: #4caf50; }
+.price-edit-input {
+    width: 80px;
+    padding: 4px;
+    border: 2px solid var(--c-purple-300);
+    border-radius: 8px;
+    font-size: 12px;
+    outline: none;
+}
+
+.main-viewport {
+  will-change: transform;
+}
+
+.notification-sidebar.open ~ .app-body {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Кнопка очистить в шторке */
+.clear-btn {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c-purple-300);
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+.clear-btn:hover { background: rgba(150, 132, 254, 0.1); }
+
+
+/* Price history modal */
+
+.modal-overlay {
+    /* По умолчанию для мобильных - фиксируем относительно ЭКРАНА */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@media (min-width: 480px) {
+    .modal-overlay {
+        position: absolute; 
+        border-radius: 24px;
+    }
+}
+
+.modal-content {
+    background: #fff;
+    width: 100%;
+    max-height: 80vh;
+    padding: 24px 20px 40px;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+    animation: slideUpMobile 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content::before {
+    content: '';
+    width: 40px;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    margin: -10px auto 15px;
+    display: block;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-color);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.chart-container {
+    height: 320px;
+    width: 100%;
+}
+
+.empty-history {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Кнопка графика в карточке */
+.action-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.action-btn:hover {
+    color: #7762ff;
+    transform: scale(1.1);
+}
+
+@keyframes slideUpMobile {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
